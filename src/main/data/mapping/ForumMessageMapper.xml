@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.data.dao.ForumMessageMapper">
+    <resultMap id="BaseResultMap" type="main.data.pojo.ForumMessage">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="publish_time" property="publishTime" jdbcType="DATE"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="main.data.pojo.ForumMessage" extends="BaseResultMap">
+        <result column="desc_word" property="descWord" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, user_id, publish_time
+  </sql>
+    <sql id="Blob_Column_List">
+    desc_word
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from forum_message
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectForumMessageByLimit" resultMap="ResultMapWithBLOBs">
+        select * from forum_message
+         order by id limit #{startIdx},#{offset};
+    </select>
+    <select id="getDataNums" resultType="java.lang.Integer">
+        select count(*) from forum_message;
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from forum_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="main.data.pojo.ForumMessage">
+    insert into forum_message (id, user_id, publish_time, 
+      desc_word)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{publishTime,jdbcType=DATE}, 
+      #{descWord,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="main.data.pojo.ForumMessage">
+        insert into forum_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="publishTime != null">
+                publish_time,
+            </if>
+            <if test="descWord != null">
+                desc_word,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="publishTime != null">
+                #{publishTime,jdbcType=DATE},
+            </if>
+            <if test="descWord != null">
+                #{descWord,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="main.data.pojo.ForumMessage">
+        update forum_message
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime,jdbcType=DATE},
+            </if>
+            <if test="descWord != null">
+                desc_word = #{descWord,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="main.data.pojo.ForumMessage">
+    update forum_message
+    set user_id = #{userId,jdbcType=INTEGER},
+      publish_time = #{publishTime,jdbcType=DATE},
+      desc_word = #{descWord,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="main.data.pojo.ForumMessage">
+    update forum_message
+    set user_id = #{userId,jdbcType=INTEGER},
+      publish_time = #{publishTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

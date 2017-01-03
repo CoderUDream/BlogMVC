@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.data.dao.LeaveMeMessageMapper" >
+  <resultMap id="BaseResultMap" type="main.data.pojo.LeaveMeMessage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="message" property="message" jdbcType="CHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, message, publish_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from leave_me_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from leave_me_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.data.pojo.LeaveMeMessage" >
+    insert into leave_me_message (id, user_id, message, 
+      publish_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{message,jdbcType=CHAR}, 
+      #{publishTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="main.data.pojo.LeaveMeMessage" >
+    insert into leave_me_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=CHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.data.pojo.LeaveMeMessage" >
+    update leave_me_message
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=CHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.data.pojo.LeaveMeMessage" >
+    update leave_me_message
+    set user_id = #{userId,jdbcType=INTEGER},
+      message = #{message,jdbcType=CHAR},
+      publish_time = #{publishTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,31 @@
+--blogdb
+CREATE DATABASE blogdb;
+
+--user表
+CREATE TABLE IF NOT EXISTS user(
+  id int (4) not null auto_increment,
+  user_name char(14) not null,
+  password char(10) not null,
+  level int (0) not null,
+  primary key(id)
+)default charset=utf8 ENGINE=INNODB;
+
+--forum_message表
+CREATE TABLE IF NOT EXISTS forum_message(
+  id int (4) not null auto_increment,
+  user_id int(4) not null,
+  desc_word text not null,
+  publish_time date not null,
+  primary key(id),
+  foreign key(user_id) references user(id) on delete cascade
+)default charset=utf8 ENGINE=INNODB;
+
+--leave_me_message表
+CREATE TABLE IF NOT EXISTS leave_me_message(
+  id int (4) not null auto_increment,
+  user_id int(4) not null,
+  message char(10) not null,
+  publish_time date not null,
+  primary key(id),
+  foreign key(user_id) references user(id) on delete cascade
+)default charset=utf8 ENGINE=INNODB;
