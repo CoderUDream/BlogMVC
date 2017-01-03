@@ -20,8 +20,7 @@ public class LoginController {
     private IUserService userService;
 
     @RequestMapping(value = "/")//, method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-    public String getLoginPage()
-    {
+    public String getLoginPage() {
         return "login";
     }
 
